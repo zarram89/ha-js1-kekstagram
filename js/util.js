@@ -9,4 +9,12 @@ const getRandomArrayElement = (elements) => elements[getRandomInteger(0, element
 
 const checkStringLength = (string, length) => string.length <= length;
 
-export {getRandomInteger, getRandomArrayElement}
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
+const toggleClass = (element, className = '') => {
+  if (element) {
+    element.classList.toggle(className);
+  }
+};
+
+export {getRandomInteger, getRandomArrayElement, isEscapeKey, toggleClass, checkStringLength};
