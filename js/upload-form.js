@@ -1,5 +1,7 @@
 import {isEscapeKey} from './util.js';
 import {resetEffects} from './upload-effects.js'
+import { uploadPicture } from './api.js';
+import { showSuccess, showError } from './messages.js';
 
 // Константы и элементы
 const uploadForm = document.querySelector('.img-upload__form');
@@ -8,6 +10,7 @@ const uploadOverlay = uploadForm.querySelector('.img-upload__overlay');
 const uploadCancelButton = uploadForm.querySelector('.img-upload__cancel');
 const hashtagsInput = uploadForm.querySelector('.text__hashtags');
 const commentInput = uploadForm.querySelector('.text__description');
+const submitButton = uploadForm.querySelector('.img-upload__submit');
 const body = document.body;
 
 // Настройка Pristine
@@ -126,7 +129,6 @@ function onDocumentKeyDown(evt) {
 uploadInput.addEventListener('change', () => {
   openUploadModal();
 });
-
 uploadCancelButton.addEventListener('click', () => {
   closeUploadModal();
 });
@@ -136,13 +138,37 @@ hashtagsInput.addEventListener('keydown', (evt) => evt.stopPropagation());
 commentInput.addEventListener('keydown', (evt) => evt.stopPropagation());
 
 // Отправка данных формы
-uploadForm.addEventListener('submit', (evt) => {
-  evt.preventDefault();
+const setSubmitDisabled = (disabled, text = 'Опубликовать') => {
+  submitButton.disabled = disabled;
+  submitButton.textContent = disabled ? 'Публикуем…' : text;
+};
 
-  const isValid = pristine.validate();
+uploadForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const valid = pristine.validate();
+  if (!valid) return;
 
-  if (isValid) {
-    // Пока по ТЗ — просто отправляем стандартным способом
-    uploadForm.submit();
+  setSubmitDisabled(true);
+
+  try {
+    const formData = new FormData(uploadForm);
+    await uploadPicture(formData);
+
+    closeUploadModal();
+    showSuccess();
+  } catch (err) {
+    console.error('Post error:', err);
+    showError(); // форма остается открытой по ТЗ
+  } finally {
+    setSubmitDisabled(false);
   }
+});
+
+// обработка кнопки reset (если будет использоваться)
+uploadForm.addEventListener('reset', () => {
+  // reset вызовется браузером сам, но мы дополнительно приводим предпросмотр/эффекты к дефолту
+  setTimeout(() => {
+    pristine.reset();
+    resetEffects();
+  }, 0);
 });

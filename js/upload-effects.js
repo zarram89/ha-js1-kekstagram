@@ -123,9 +123,11 @@ function applyEffect(value) {
 }
 
 // === Сброс при открытии новой формы ===
-export const resetEffects = () => {
+const resetEffects = () => {
   currentEffect = EFFECTS.none;
   uploadPreview.style.filter = 'none';
   sliderContainer.classList.add('hidden');
   setScale(DEFAULT_SCALE);
 };
+
+export {resetEffects};
