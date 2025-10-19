@@ -4,6 +4,9 @@ import { uploadPicture } from './api.js';
 import { showSuccess, showError } from './messages.js';
 
 // Константы и элементы
+const FILE_TYPES = ['jpg', 'jpeg', 'png'];
+
+const body = document.body;
 const uploadForm = document.querySelector('.img-upload__form');
 const uploadInput = uploadForm.querySelector('#upload-file');
 const uploadOverlay = uploadForm.querySelector('.img-upload__overlay');
@@ -11,7 +14,9 @@ const uploadCancelButton = uploadForm.querySelector('.img-upload__cancel');
 const hashtagsInput = uploadForm.querySelector('.text__hashtags');
 const commentInput = uploadForm.querySelector('.text__description');
 const submitButton = uploadForm.querySelector('.img-upload__submit');
-const body = document.body;
+const uploadPreview = uploadForm.querySelector('.img-upload__preview img');
+const effectPreviews = document.querySelectorAll('.effects__preview');
+
 
 // Настройка Pristine
 const pristineConfig = {
@@ -171,4 +176,30 @@ uploadForm.addEventListener('reset', () => {
     pristine.reset();
     resetEffects();
   }, 0);
+});
+
+// загрузка изображения
+uploadInput.addEventListener('change', () => {
+  const file = uploadInput.files[0];
+  const fileName = file.name.toLowerCase();
+
+  const matches = FILE_TYPES.some((ext) => fileName.endsWith(ext));
+
+  if (matches) {
+    const reader = new FileReader();
+
+    reader.addEventListener('load', () => {
+      // 1️⃣ Меняем основное превью
+      uploadPreview.src = reader.result;
+
+      // 2️⃣ Меняем превью эффектов
+      effectPreviews.forEach((preview) => {
+        preview.style.backgroundImage = `url(${reader.result})`;
+      });
+    });
+
+    reader.readAsDataURL(file);
+    // 3️⃣ Показываем модалку (по ТЗ)
+    openUploadModal();
+  }
 });
