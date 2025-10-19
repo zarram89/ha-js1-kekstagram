@@ -2,6 +2,7 @@ import { getPictures, PICTURES_COUNT } from './data.js';
 import { renderPictures } from './pictures.js';
 import { renderBigPictureElement } from './big-picture.js';
 import './upload-form.js';
+import './upload-effects'
 
 const picturesListElement = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');

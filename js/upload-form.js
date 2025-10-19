@@ -1,4 +1,5 @@
 import {isEscapeKey} from './util.js';
+import {resetEffects} from './upload-effects.js'
 
 // Константы и элементы
 const uploadForm = document.querySelector('.img-upload__form');
@@ -103,8 +104,11 @@ const closeUploadModal = () => {
   uploadOverlay.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeyDown);
+
+  // Сбрасываем всё состояние
   uploadForm.reset(); // сброс всех полей
   pristine.reset();   // сброс ошибок
+  resetEffects(); // сброс эффектов с формы загрузки фото
 };
 
 // Обработчики клавиатуры
