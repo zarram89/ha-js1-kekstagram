@@ -43,7 +43,7 @@ const createPicture = (index) => ({
   description: getRandomArrayElement(descriptions),
   likes: getRandomPositiveInteger(15, 200),
   comments: Array.from(
-    { length: getRandomPositiveInteger(0, 6) },
+    { length: getRandomPositiveInteger(0, 16) },
     (_, commentIndex) => createComment(commentIndex + 1)
   ),
 });
