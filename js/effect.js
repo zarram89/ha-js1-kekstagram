@@ -3,7 +3,7 @@ const form = document.querySelector('.img-upload__form');
 const sliderElement = document.querySelector('.effect-level__slider');
 const effectLevel = document.querySelector('.effect-level__value');
 
-const Effect = [
+const EFFECTS = [
   {
     name: 'none',
     min: 0,
@@ -51,7 +51,7 @@ const Effect = [
     unit: '',
   },
 ];
-const DEFAULT_EFFECT = Effect[0];
+const DEFAULT_EFFECT = EFFECTS[0];
 let chosenEffect = DEFAULT_EFFECT;
 
 const isDefault = () => chosenEffect === DEFAULT_EFFECT;
@@ -76,7 +76,7 @@ const onFormChange = (evt) => {
   if (!evt.target.classList.contains('effects__radio')) {
     return;
   }
-  chosenEffect = Effect.find((effect) => effect.name === evt.target.value);
+  chosenEffect = EFFECTS.find((effect) => effect.name === evt.target.value);
   updateSlider();
 };
 
