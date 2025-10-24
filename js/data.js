@@ -1,4 +1,4 @@
-import {getRandomPositiveInteger, getRandomArrayElement} from './util.js';
+import { getRandomPositiveInteger, getRandomArrayElement } from './util.js';
 
 const commentLines = [
   'Всё отлично!',
@@ -53,4 +53,4 @@ const getPictures = () =>
     createPicture(pictureIndex + 1)
   );
 
-export {getPictures};
+export { getPictures };
